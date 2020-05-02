@@ -47,4 +47,21 @@ public class UserController {
         userService.save(userEntity);
         return "success";
     }
+
+    //   根据id查询用户
+    @ResponseBody
+    @RequestMapping("/getUserById")
+    public UserEntity getUserById(Integer id){
+        return userService.getUserById(id);
+    }
+
+    //根据id修改用户
+    @RequestMapping("/updateUserById")
+    @ResponseBody
+    public String updateUserById(@RequestBody UserEntity userEntity){
+
+        userService.updateUserById(userEntity);
+        return "success";
+    }
+
 }

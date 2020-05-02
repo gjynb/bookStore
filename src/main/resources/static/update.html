@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>新增</title>
+    <title>修改</title>
     <link rel="stylesheet" href="bt/css/bootstrap.min.css">
     <link rel="stylesheet" href="bt/css/bootstrap-theme.min.css">
     <script type="text/javascript" src="bt/js/jquery.js"></script>
@@ -11,6 +11,7 @@
 <body>
 <div class="container">
 <form>
+    <input type="hidden" id="id">
     <div class="form-group">
         <label for="exampleInputUserName1">用户名</label>
         <input type="text" class="form-control" id="exampleInputUserName1" placeholder="UserName">
@@ -23,18 +24,39 @@
         <label for="exampleInputPassword2">确认密码</label>
         <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
     </div>
-    <input id="sub" class="btn btn-success form-control" type="button" value="注册">
+    <input id="sub" class="btn btn-success form-control" type="button" value="修改">
 </form>
 </div>
 </body>
 </html>
 
 <script type="text/javascript">
+    $(function () {
+      var id =  GetQueryString("id")
+        $.post({
+            url:'user/getUserById?id='+id,
+            success:function (data) {
+                $("#id").val(data.id);
+                $("#exampleInputUserName1").val(data.username);
+                $("#exampleInputPassword1").val(data.password);
+                $("#exampleInputPassword2").val(data.password);
+
+            }
+        })
+    });
+
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return unescape(r[2]); return null;
+    }
 
     $("#sub").click(function () {
+       var id = $("#id").val();
        var userName = $("#exampleInputUserName1").val();
        var passWord = $("#exampleInputPassword1").val();
        var rePassWord = $("#exampleInputPassword2").val();
+
 
        if(userName.length == 0 ){
            alert("用户名不能为空");
@@ -50,6 +72,7 @@
         }
         //封装数据,提交传给后端接口
         var user = {
+            "id" : id,
             "username" : userName,
             "password" : passWord,
         }
@@ -58,7 +81,7 @@
 
         //提交给后端接口
         $.post({
-            url:'user/save',
+            url:'user/updateUserById',
             data:userJson,
             contentType:'application/json',
             success: function (data) {

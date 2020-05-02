@@ -37,4 +37,16 @@ public class UserServiceImpl implements UserService{
         userEntity.setStatus(1);
         userDao.save(userEntity);
     }
+
+    /**  根据id查询用户*/
+    @Override
+    public UserEntity getUserById(Integer id) {
+        return userDao.getUserById(id);
+    }
+
+    /**  根据id修改用户*/
+    @Override
+    public void updateUserById(UserEntity userEntity) {
+         userDao.updateUserById(userEntity);
+    }
 }

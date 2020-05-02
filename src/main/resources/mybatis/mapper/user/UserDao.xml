@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.user_text.dao.UserDao">
+
     <!--页面显示数据-->
     <select id="getAll" resultType="com.example.demo.user_text.entity.UserEntity" parameterType="java.util.Map">
         select * FROM user_text
@@ -13,7 +14,7 @@
         delete from user_text where id = ${id}
     </delete>
 
-    <!--软删除-->
+    <!--新建删除-->
 <insert id="save" parameterType="com.example.demo.user_text.entity.UserEntity">
     INSERT INTO user_text (
           id,
@@ -30,4 +31,17 @@ VALUES
         #{status}
 	);
 </insert>
+    <!--根据id查询数据-->
+<select id="getUserById" parameterType="java.lang.Integer" resultType="com.example.demo.user_text.entity.UserEntity">
+    select  * from user_text where id = ${id}
+</select>
+
+    <update id="updateUserById" parameterType="com.example.demo.user_text.entity.UserEntity">
+        update `bookstore`.`user_text`
+        set
+        `username` = #{username},
+        `password` = #{password}
+        where
+        (`id`= ${id})
+    </update>
 </mapper>
